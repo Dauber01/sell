@@ -1,0 +1,7 @@
+#logging:
+    #pattern:
+        #console: "%d - %msg%n"
+    #path: /var/
+    #file: /var/log/sell.log
+    #level:
+      #com.imook.sell.LoggerTest: debug
