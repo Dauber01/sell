@@ -36,7 +36,7 @@ public class ProductCategoryRepositoryTest {
     @Test
     @Transactional
     public void saveTest(){
-       ProductCategory productCategory = new ProductCategory("最爱",5);
+       ProductCategory productCategory = new ProductCategory("热搜榜",2);
        ProductCategory p = productCategoryRepository.save(productCategory);
        Assert.assertNotNull(p);
     }
