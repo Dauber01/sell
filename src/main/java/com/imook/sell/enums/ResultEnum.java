@@ -17,6 +17,7 @@ public enum ResultEnum {
     ORDER_UPDATE_FAIL(15,"订单状态更新失败"),
     ORDER_DETAIL_ENTITY(16,"无订单详情"),
     ORDER_PAY_STATUS_ERROR(17,"订单支付状态不正确"),
+    PARAM_ERROR(18,"参数错误"),
     ;
 
     private Integer code;
