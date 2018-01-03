@@ -1,8 +1,11 @@
 package com.imook.sell.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.imook.sell.dataobject.OrderDetail;
 import com.imook.sell.enums.OrderStatusEnum;
 import com.imook.sell.enums.PayStatusEnum;
+import com.imook.sell.util.serializer.DateToLongSerializer;
 
 import javax.persistence.Id;
 import java.math.BigDecimal;
@@ -14,6 +17,7 @@ import java.util.List;
  * @author Lucifer
  * @date 2017／12／31 00:58
  */
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDto {
 
     /** 订单id. */
@@ -41,9 +45,11 @@ public class OrderDto {
     private Integer payStatus;
 
     /** 订单创建时间. */
+    @JsonSerialize(using = DateToLongSerializer.class)
     private Date createTime;
 
     /** 订单修改时间. */
+    @JsonSerialize(using = DateToLongSerializer.class)
     private Date updateTime;
 
     /** 订单详情. */
