@@ -5,6 +5,7 @@ import com.imook.sell.dto.OrderDto;
 import com.imook.sell.enums.ResultEnum;
 import com.imook.sell.exception.SellException;
 import com.imook.sell.form.OrderForm;
+import com.imook.sell.service.BuyerService;
 import com.imook.sell.service.OrderService;
 import com.imook.sell.util.ResultVoUtil;
 import com.imook.sell.vo.ResultVo;
@@ -34,6 +35,8 @@ import java.util.Map;
 public class BuyerOrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private BuyerService buyerService;
 
     //创建订单
     @PostMapping("/create")
@@ -75,8 +78,7 @@ public class BuyerOrderController {
             log.error("【查询订单详情】参数为空,openid = {},orderId = {}",openid,orderId);
             throw new SellException(ResultEnum.PARAM_ERROR);
         }
-        //TODO 不安全的方法，要加权限验证，或者单点登陆
-        OrderDto orderDto = orderService.findOne(orderId);
+        OrderDto orderDto = buyerService.findOrderOne(openid,orderId);
         return ResultVoUtil.success(orderDto);
     }
 
@@ -88,9 +90,7 @@ public class BuyerOrderController {
             log.error("【查询订单详情】参数为空,openid = {},orderId = {}",openid,orderId);
             throw new SellException(ResultEnum.PARAM_ERROR);
         }
-        //TODO 不安全的方法，要加权限验证，或者单点登陆
-        OrderDto orderDto = orderService.findOne(orderId);
-        orderService.cancel(orderDto);
+        buyerService.cancelOrder(openid,orderId);
         return ResultVoUtil.success();
     }
 }
