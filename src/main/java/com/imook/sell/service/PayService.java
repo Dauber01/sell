@@ -1,6 +1,8 @@
 package com.imook.sell.service;
 
 import com.imook.sell.dto.OrderDto;
+import com.lly835.bestpay.model.PayResponse;
+import com.lly835.bestpay.model.RefundResponse;
 
 /**
  * 支付
@@ -9,5 +11,9 @@ import com.imook.sell.dto.OrderDto;
  */
 public interface PayService {
 
-    void create(OrderDto orderDto);
+    PayResponse create(OrderDto orderDto);
+
+    PayResponse notify(String notifyData);
+
+    RefundResponse refund(OrderDto orderDto);
 }

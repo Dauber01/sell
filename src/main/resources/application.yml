@@ -17,4 +17,4 @@ wechat:
   mchId:
   mchKey:
   keyPath:
-  notifyUrl: http://sell.natapp4.cc/sell/pay/notyfy
+  notifyUrl: http://sell.natapp4.cc/sell/pay/notify
