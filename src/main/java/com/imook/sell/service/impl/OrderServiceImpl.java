@@ -13,6 +13,7 @@ import com.imook.sell.exception.SellException;
 import com.imook.sell.repository.OrderDetailRepository;
 import com.imook.sell.repository.OrderMasterRepository;
 import com.imook.sell.service.OrderService;
+import com.imook.sell.service.PayService;
 import com.imook.sell.service.ProductInfoService;
 import com.imook.sell.util.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,8 @@ public class OrderServiceImpl implements OrderService{
     private OrderDetailRepository orderDetailRepository;
     @Autowired
     private OrderMasterRepository orderMasterRepository;
+    @Autowired
+    private PayService payService;
 
     @Override
     @Transactional
@@ -135,7 +138,7 @@ public class OrderServiceImpl implements OrderService{
         productInfoService.increaseStock(cartDTOList);
         //4.如果已支付，则退款
         if (PayStatusEnum.SUCCESS.equals(orderDto.getPayStatus())){
-            //TODO 增加退款逻辑
+            payService.refund(orderDto);
         }
         return orderDto;
     }
