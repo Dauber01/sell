@@ -1,10 +1,12 @@
 package com.imook.sell.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.imook.sell.dataobject.OrderDetail;
 import com.imook.sell.enums.OrderStatusEnum;
 import com.imook.sell.enums.PayStatusEnum;
+import com.imook.sell.util.EnumUtil;
 import com.imook.sell.util.serializer.DateToLongSerializer;
 
 import javax.persistence.Id;
@@ -51,6 +53,16 @@ public class OrderDto {
     /** 订单修改时间. */
     @JsonSerialize(using = DateToLongSerializer.class)
     private Date updateTime;
+
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusEnum(){
+        return EnumUtil.getByCode(orderStatus,OrderStatusEnum.class);
+    }
+
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum(){
+        return EnumUtil.getByCode(payStatus,PayStatusEnum.class);
+    }
 
     /** 订单详情. */
     private List<OrderDetail> orderDetailList;

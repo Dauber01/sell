@@ -7,7 +7,7 @@ import lombok.Data;
  * @author Lucifer
  * @date 2017／12／30 21:26
  */
-public enum OrderStatusEnum {
+public enum OrderStatusEnum implements CodeEnum{
 
     NEW(0,"新订单"),
     FINISHED(1,"完结"),
@@ -22,6 +22,7 @@ public enum OrderStatusEnum {
         this.msg = msg;
     }
 
+    @Override
     public Integer getCode() {
         return code;
     }
