@@ -9,6 +9,7 @@ import lombok.Getter;
  */
 @Getter
 public enum ResultEnum {
+    SUCCESS(0,"成功"),
     PRODUCT_NOT_EXIST(10,"找不到商品"),
     PRODUCT_STOCK_ERROR(11,"库存不足异常"),
     ORDER_NOT_EXIST(12,"找不到订单"),
@@ -22,6 +23,8 @@ public enum ResultEnum {
     ORDER_OWNER_ERROR(20,"该订单不属于当前用户"),
     WECHAT_MP_ERROR(21,"微信获取openid过程异常"),
     WXPAY_NOTIFY_MONEY_VERIFY_ERROR(22,"微信支付异步通知金额校验不通过"),
+    ORDER_CANCEL_SUCECESS(23,"订单取消成功"),
+    ORDER_FINISH_SUCCESS(24,"订单完结成功"),
     ;
 
     private Integer code;
