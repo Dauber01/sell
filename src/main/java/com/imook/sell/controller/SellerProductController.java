@@ -2,11 +2,11 @@ package com.imook.sell.controller;
 
 import com.imook.sell.dataobject.ProductCategory;
 import com.imook.sell.dataobject.ProductInfo;
-import com.imook.sell.dto.OrderDto;
 import com.imook.sell.exception.SellException;
 import com.imook.sell.form.ProductForm;
 import com.imook.sell.service.ProductCategoryService;
 import com.imook.sell.service.ProductInfoService;
+import com.imook.sell.util.KeyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -131,8 +131,14 @@ public class SellerProductController {
             map.put("url","/sell/seller/product/index");
             return new ModelAndView("common/error",map);
         }
+        ProductInfo productInfo = new ProductInfo();
         try{
-            ProductInfo productInfo = productInfoService.findOne(productForm.getProductId());
+            //如果productId为空，说明为新增
+            if (!StringUtils.isEmpty(productForm.getProductId())){
+                productInfo = productInfoService.findOne(productForm.getProductId());
+            }else{
+                productForm.setProductId(KeyUtil.getUniqueKey());
+            }
             BeanUtils.copyProperties(productForm,productInfo);
             productInfoService.save(productInfo);
         }catch (SellException e){
