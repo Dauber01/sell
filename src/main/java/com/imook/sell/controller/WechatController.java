@@ -1,5 +1,6 @@
 package com.imook.sell.controller;
 
+import com.imook.sell.config.ProjectUrl;
 import com.imook.sell.config.WechatMpConfig;
 import com.imook.sell.enums.ResultEnum;
 import com.imook.sell.exception.SellException;
@@ -30,9 +31,15 @@ public class WechatController {
     @Autowired
     private WxMpService wxMpService;
 
+    @Autowired
+    private WxMpService wxOpenService;
+
+    @Autowired
+    private ProjectUrl projectUrl;
+
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl")String returnUrl){
-        String url = "http://localhost:8080/sell/wechat/userInfo";
+        String url = projectUrl.getWechatMpAuthorize() + "/sell/wechat/userInfo";
         String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url,WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
         log.info("【微信网页授权】获取code,redirectUrl = {}",redirectUrl);
         return "redirect:" + redirectUrl;
@@ -50,4 +57,26 @@ public class WechatController {
         String openid = wxMpOAuth2AccessToken.getAccessToken();
         return "redirect:" + returnUrl + "?openid=" + openid;
     }
+
+    @GetMapping("/qrAuthorize")
+    public String qrAuthorize(@RequestParam("returnUrl")String returnUrl){
+        String url = projectUrl.getWechatOpenAuthorize() + "/sell/wechat/qrUserInfo";
+        String redirectUrl = wxOpenService.buildQrConnectUrl(url,WxConsts.QrConnectScope.SNSAPI_LOGIN, URLEncoder.encode(returnUrl));
+        return "redirect:" + redirectUrl;
+    }
+
+    @GetMapping("/qrUserInfo")
+    public String qrUserInfo(@RequestParam("code")String code,@RequestParam("returnUrl")String returnUrl){
+        WxMpOAuth2AccessToken wxMpOAuth2AccessToken = new WxMpOAuth2AccessToken();
+        try{
+            wxMpOAuth2AccessToken = wxOpenService.oauth2getAccessToken(code);
+        }catch (WxErrorException e){
+            log.error("【微信网页授权】{}",e);
+            throw new SellException(ResultEnum.WECHAT_MP_ERROR.getCode(),e.getError().getErrorMsg());
+        }
+        log.info("wxMpOAuth2AccessToken={}",wxMpOAuth2AccessToken);
+        String openid = wxMpOAuth2AccessToken.getAccessToken();
+        return "redirect:" + returnUrl + "?openid=" + openid;
+    }
+
 }

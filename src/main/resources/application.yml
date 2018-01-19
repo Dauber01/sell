@@ -8,13 +8,24 @@ spring:
     show-sql: true
   jackson:
     default-property-inclusion: non_null
+  redis:
+    host: 139.129.206.96
+    port: 6379
+    password: sakura
 server:
   context-path: /sell
 
 wechat:
   mpAppId: wx53cd4b9fbb3c66cf
   mpAppSecret: 146bcc37544928f63594e4a2526051e4
+  openAppId:
+  openAppSecret:
   mchId:
   mchKey:
   keyPath:
   notifyUrl: http://sell.natapp4.cc/sell/pay/notify
+
+projectUrl:
+  wechatMpAuthorize: http://localhost:8080
+  wechatOpenAuthorize: http://localhost:8080
+  sell:
