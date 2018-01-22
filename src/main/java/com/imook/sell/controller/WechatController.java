@@ -1,7 +1,6 @@
 package com.imook.sell.controller;
 
-import com.imook.sell.config.ProjectUrl;
-import com.imook.sell.config.WechatMpConfig;
+import com.imook.sell.config.ProjectUrlConfig;
 import com.imook.sell.enums.ResultEnum;
 import com.imook.sell.exception.SellException;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URLEncoder;
 
@@ -35,11 +33,11 @@ public class WechatController {
     private WxMpService wxOpenService;
 
     @Autowired
-    private ProjectUrl projectUrl;
+    private ProjectUrlConfig projectUrlConfig;
 
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl")String returnUrl){
-        String url = projectUrl.getWechatMpAuthorize() + "/sell/wechat/userInfo";
+        String url = projectUrlConfig.getWechatMpAuthorize() + "/sell/wechat/userInfo";
         String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url,WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
         log.info("【微信网页授权】获取code,redirectUrl = {}",redirectUrl);
         return "redirect:" + redirectUrl;
@@ -60,7 +58,7 @@ public class WechatController {
 
     @GetMapping("/qrAuthorize")
     public String qrAuthorize(@RequestParam("returnUrl")String returnUrl){
-        String url = projectUrl.getWechatOpenAuthorize() + "/sell/wechat/qrUserInfo";
+        String url = projectUrlConfig.getWechatOpenAuthorize() + "/sell/wechat/qrUserInfo";
         String redirectUrl = wxOpenService.buildQrConnectUrl(url,WxConsts.QrConnectScope.SNSAPI_LOGIN, URLEncoder.encode(returnUrl));
         return "redirect:" + redirectUrl;
     }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "projectUrl")
 @Data
-public class ProjectUrl {
+public class ProjectUrlConfig {
 
     /** 微信公众平台授权url. */
     private String wechatMpAuthorize;
