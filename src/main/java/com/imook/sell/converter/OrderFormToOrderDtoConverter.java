@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.imook.sell.dataobject.OrderDetail;
 import com.imook.sell.dto.OrderDto;
 import com.imook.sell.enums.ResultEnum;
+import com.imook.sell.exception.ResponseBankException;
 import com.imook.sell.exception.SellException;
 import com.imook.sell.form.OrderForm;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class OrderFormToOrderDtoConverter {
                     new TypeToken<List<OrderDetail>>(){}.getType());
         }catch (Exception e){
             log.error("【对象转换】错误,string = {}",orderForm.getItems());
+            //throw new ResponseBankException();
             throw new SellException(ResultEnum.PARAM_ERROR);
         }
         orderDto.setOrderDetailList(orderDetailList);

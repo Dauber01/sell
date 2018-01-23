@@ -1,12 +1,14 @@
 package com.imook.sell.exception;
 
 import com.imook.sell.enums.ResultEnum;
+import lombok.Getter;
 
 /**
  * 商品异常
  * @author Lucifer
  * @date 2017／12／31 11:57
  */
+@Getter
 public class SellException extends RuntimeException{
 
     private Integer code;
