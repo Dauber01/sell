@@ -31,3 +31,9 @@ projectUrl:
   wechatMpAuthorize: http://localhost:8080
   wechatOpenAuthorize: http://localhost:8080
   sell: http://localhost:8080
+logging:
+  level:
+    com.imook.sell.dataobject.mapper: trace
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+

@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -51,6 +52,39 @@ public class ProductCategoryMapperTest {
         productCategory.setCategoryType(103);
         int result = mapper.insertByObject(productCategory);
         Assert.assertEquals(1,result);
+    }
+
+    @Test
+    public void findBycategoryName(){
+        List<ProductCategory> productCategories = mapper.findByCategoryName("师兄最不爱");
+        Assert.assertNotEquals(0,productCategories.size());
+    }
+
+    @Test
+    public void updateByCategoryType(){
+        int result = mapper.updateByCategoryType("师妹最不爱",102);
+        Assert.assertNotEquals(0,result);
+    }
+
+    @Test
+    public void updateByObject(){
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setCategoryName("师兄最不爱");
+        productCategory.setCategoryType(102);
+        int result = mapper.updateByObject(productCategory);
+        Assert.assertNotEquals(0,result);
+    }
+
+    @Test
+    public void deleteByCategoryType(){
+        int result = mapper.deleteByeCategoryType(102);
+        Assert.assertNotEquals(0,result);
+    }
+
+    @Test
+    public void selectByCategoryType(){
+        ProductCategory result = mapper.selectByCategoryType(103);
+        Assert.assertNotNull(result);
     }
 
     @Test
