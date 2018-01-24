@@ -6,4 +6,9 @@ package com.imook.sell.service;
  * @date 2018/01/24 17:51
  */
 public interface SecKillService {
+
+    public String querySecKillProductInfo(String productId);
+
+    public void orderProductMockDiffUser(String productId);
+
 }

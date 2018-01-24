@@ -8,6 +8,9 @@ import com.imook.sell.exception.SellException;
 import com.imook.sell.repository.ProductInfoRepository;
 import com.imook.sell.service.ProductInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,12 +23,14 @@ import java.util.List;
  * @date 2017／12／30 14:51
  */
 @Service
+//@CacheConfig(cacheNames = "product")
 public class ProductInfoServiceImpl implements ProductInfoService{
 
     @Autowired
     private ProductInfoRepository productInfoRepository;
 
     @Override
+    //@Cacheable(key = "1234")
     public ProductInfo findOne(String productId) {
         return productInfoRepository.findOne(productId);
     }
@@ -41,6 +46,7 @@ public class ProductInfoServiceImpl implements ProductInfoService{
     }
 
     @Override
+    //@CachePut(key = "1234")
     public ProductInfo save(ProductInfo productInfo) {
         return productInfoRepository.save(productInfo);
     }

@@ -12,8 +12,10 @@ import com.imook.sell.vo.ProductVo;
 import com.imook.sell.vo.ResultVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -35,7 +37,8 @@ public class BuyerProductController {
     private ProductInfoService productInfoService;
 
     @GetMapping("/list")
-    public ResultVo list(){
+    @Cacheable(cacheNames = "product",key = "#sellerId",condition = "#sellerId.length() > 3",unless = "#result.code != 0")
+    public ResultVo list(@RequestParam("sellerId") String sellerId){
         List<ProductInfo> productInfoList = productInfoService.findUpAll();
         List<Integer> categoryTypeList = productInfoList.stream().map(e -> e.getCategoryType()).collect(Collectors.toList());
         List<ProductCategory> productCategoryList = productCategoryService.findByCategoryTypeIn(categoryTypeList);
