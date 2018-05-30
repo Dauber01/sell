@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -25,6 +27,9 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Slf4j
 public class OrderServiceImplTest {
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     private final String buyerOpenId = "110110";
 
@@ -97,6 +102,19 @@ public class OrderServiceImplTest {
         Page<OrderDto> orderDtos = orderService.findList(pageRequest);
         //Assert.assertNotEquals(0,orderDtos.getTotalElements());
         Assert.assertTrue("测试查询所有订单列表",orderDtos.getTotalElements() > 0);
+    }
+
+    @Test
+    public void test(){
+        for (int i = 0 ; i < 10 ; i++){
+            redisTemplate.opsForSet().add("1234567",String.valueOf(222 + i));
+        }
+    }
+
+    @Test
+    public void test1(){
+        Set<String> set = redisTemplate.opsForSet().members("1234567");
+        log.info("【存入效果】size={},内容={}",set.size(),set.toString());
     }
 
 }

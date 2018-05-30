@@ -7,10 +7,14 @@ import com.imook.sell.service.SecKillService;
 import com.imook.sell.util.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 压测用逻辑
@@ -21,9 +25,12 @@ import java.util.Map;
 @Slf4j
 public class SecKillServiceImpl implements SecKillService{
 
-    private static final int TIMEOUT = 100;
+    private static final int TIMEOUT = 10 * 1000;
 
     private static int LOCKNUMBER = 0;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private RedisLock redisLock;
@@ -51,12 +58,12 @@ public class SecKillServiceImpl implements SecKillService{
                 ",该商品成功下单用户数量" + orders.size() + "人";
     }
 
-    @Override
+   /* @Override
     public String querySecKillProductInfo(String productId){
         return this.queryMap(productId);
-    }
+    }*/
 
-    @Override
+/*    @Override
     public void orderProductMockDiffUser(String productId){
         //加锁
         long time = System.currentTimeMillis() + TIMEOUT;
@@ -81,6 +88,56 @@ public class SecKillServiceImpl implements SecKillService{
         }
         //解锁
         redisLock.unlock(productId,String.valueOf(time));
+    }*/
+
+    @Override
+    public String querySecKillProductInfo(String productId){
+        return redisTemplate.opsForValue().get("dingmingyi");
+    }
+
+    @Override
+    public void orderProductMockDiffUser(String productId){
+        /*try{
+            InetAddress address = InetAddress.getLocalHost();
+            System.out.println(address);
+            String hostAddress = address.getHostAddress();
+            System.out.println(hostAddress);
+        }catch (UnknownHostException e){
+
+        }
+        //加锁
+        long time = System.currentTimeMillis() + TIMEOUT;
+        boolean lockSuccess = false;
+        while (!lockSuccess){
+            lockSuccess = redisLock.lock(productId,String.valueOf(time));
+            log.info("【锁的结果】:{}",lockSuccess);
+            try{
+                Random rand = new Random();
+                int randNum = rand.nextInt(10);
+                Thread.sleep(randNum);
+            }catch (InterruptedException e){
+                log.error("【获取拼单号】线程等待异常: {}",e);
+                return;
+            }
+        }*/
+        //1.查询该商品库存，为0时活动结束
+        //int stockNum = stock.get(productId);
+        long chardNum = Long.parseLong(redisTemplate.opsForValue().get("dingmingyi"));
+        if (chardNum > 99999999){
+            throw new SellException(100,"活动结束");
+        }else {
+            //2.下单，模拟不同用户的openid不同
+            chardNum += 1;
+            redisTemplate.opsForValue().set("dingmingyi",String.valueOf(chardNum));
+           /* try{
+                Thread.sleep(100);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }*/
+        }
+        //解锁
+        //redisLock.unlock(productId,String.valueOf(time));
+        log.info("【一次调用over】拼单号为: {}",chardNum);
     }
 
 }

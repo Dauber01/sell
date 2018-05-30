@@ -40,6 +40,7 @@ public class SellerOrderController {
                              Map<String,Object> map){
         PageRequest pageRequest = new PageRequest(page - 1,size);
         Page<OrderDto> orderDtoPage = orderService.findList(pageRequest);
+        orderDtoPage.getTotalPages();
         map.put("orderDtoPage",orderDtoPage);
         map.put("currentPage",page);
         map.put("size",size);

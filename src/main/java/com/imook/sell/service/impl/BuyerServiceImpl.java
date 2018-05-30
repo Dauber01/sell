@@ -7,7 +7,11 @@ import com.imook.sell.service.BuyerService;
 import com.imook.sell.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.Set;
 
 /**
  * 买家服务类
@@ -19,6 +23,8 @@ import org.springframework.stereotype.Service;
 public class BuyerServiceImpl implements BuyerService{
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
     @Override
     public OrderDto findOrderOne(String openid, String orderId) {
@@ -46,4 +52,10 @@ public class BuyerServiceImpl implements BuyerService{
         }
         return orderDto;
     }
+
+    public void tset(){
+        Set<String> set = redisTemplate.keys("abc*");
+        System.out.println("!");
+    }
+
 }

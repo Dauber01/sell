@@ -30,7 +30,7 @@ public class OrderMasterRepositoryTest {
         orderMaster.setBuyerOpenid(OPENID);
         orderMaster.setBuyerAddress("江西");
         orderMaster.setBuyerName("师兄");
-        orderMaster.setBuyerPhone("15004011234");
+        orderMaster.setBuyerPhone("15004011230");
         orderMaster.setOrderAmount(new BigDecimal(23));
         orderMaster.setOrderId("123457");
 

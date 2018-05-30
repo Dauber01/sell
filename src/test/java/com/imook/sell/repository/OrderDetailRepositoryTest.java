@@ -25,7 +25,7 @@ public class OrderDetailRepositoryTest {
         orderDetail.setDetailId("1234568");
         orderDetail.setOrderId("110110");
         orderDetail.setProductIcon("http://xxx.jpg");
-        orderDetail.setProductId("123457");
+        orderDetail.setProductId("123456");
         orderDetail.setProductName("西红柿鸡蛋汤");
         orderDetail.setProductPrice(new BigDecimal(10.3));
         orderDetail.setProductQuantity(20);

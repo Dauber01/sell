@@ -4,8 +4,13 @@ import com.imook.sell.enums.OrderStatusEnum;
 import com.imook.sell.enums.PayStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,8 +21,9 @@ import java.util.Date;
  * @date 2017／12／30 21:15
  */
 @Entity
+//@EntityListeners(AuditingEntityListener.class)
 @Data
-@DynamicUpdate
+//@DynamicUpdate
 public class OrderMaster {
 
     /** 订单id. */
@@ -46,9 +52,12 @@ public class OrderMaster {
     private Integer payStatus = PayStatusEnum.WAIT.getCode();
 
     /** 订单创建时间. */
+    @Column(nullable = false,updatable = false)
     private Date createTime;
 
     /** 订单修改时间. */
+    @LastModifiedDate
+    @Column(nullable = false)
     private Date updateTime;
 
     public String getOrderId() {

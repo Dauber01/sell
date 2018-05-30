@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -37,6 +38,8 @@ public class BuyerOrderController {
     private OrderService orderService;
     @Autowired
     private BuyerService buyerService;
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
     //创建订单
     @PostMapping("/create")
@@ -93,4 +96,10 @@ public class BuyerOrderController {
         buyerService.cancelOrder(openid,orderId);
         return ResultVoUtil.success();
     }
+
+    @GetMapping("/test")
+    public void tset(){
+        redisTemplate.keys("abc*");
+    }
+
 }

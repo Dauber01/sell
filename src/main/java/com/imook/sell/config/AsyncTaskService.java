@@ -27,9 +27,11 @@ public class AsyncTaskService {
 
     @Async
     public void executeAsyncTask(Integer i) {
-        while (true){
-            log.info("哈哈啊哈" + i);
-            this.redisTemplate.opsForValue().set("test" + i,String.valueOf(i),10, TimeUnit.MILLISECONDS);
+        int j = 0;
+        while (j < 100){
+            log.info("哈哈啊哈" + j);
+            this.redisTemplate.opsForSet().add("test","excample");
+            log.info("12345678" + i);
         }
     }
 
